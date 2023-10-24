@@ -3,9 +3,8 @@
 
 #include <QMainWindow>
 
-extern "C" {
-#include "../s21_BankCalc.h"
-}
+#include "../controller/calc_controller.h"
+#include "../model/bank_model.h"
 
 namespace Ui {
 class BankWindow;
@@ -15,11 +14,12 @@ class BankWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit BankWindow(QWidget *parent = nullptr);
+  BankWindow(QWidget *parent = nullptr, s21::Controller *c = nullptr);
   ~BankWindow();
 
  private:
   Ui::BankWindow *ui;
+  s21::Controller *controll_;
 
  private slots:
   void on_pushButton_clicked();
