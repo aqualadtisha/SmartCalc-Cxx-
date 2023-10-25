@@ -17,16 +17,15 @@ MainWindow::~MainWindow() {
 
 void MainWindow::SetButtons() {
   for (QAbstractButton *button : ui_->buttonGroup->buttons())
-    connect(button, SIGNAL(clicked()), this, SLOT(NumbersOperands()));
+      connect(button, &QPushButton::clicked, this, &MainWindow::NumbersOperands);
 
   for (QAbstractButton *button : ui_->buttonGroup_2->buttons())
-    connect(button, SIGNAL(clicked()), this, SLOT(Maths()));
+      connect(button, &QPushButton::clicked, this, &MainWindow::Maths);
 
-  connect(ui_->pushButton_ac, SIGNAL(clicked()), this, SLOT(ACClicked()));
-  connect(ui_->pushButton_c, SIGNAL(clicked()), this, SLOT(CClicked()));
+  connect(ui_->pushButton_ac, &QPushButton::clicked, this, &MainWindow::ACClicked);
+  connect(ui_->pushButton_c, &QPushButton::clicked, this, &MainWindow::CClicked);
 
-  connect(ui_->pushButton_res, SIGNAL(clicked()), this, SLOT(Result()));
-  connect(ui_->string, SIGNAL(returnPressed()), this, SLOT(Result()));
+  connect(ui_->pushButton_res, &QPushButton::clicked, this, &MainWindow::Result);
 }
 
 void MainWindow::NumbersOperands() {
@@ -72,7 +71,9 @@ void MainWindow::Result() {
 }
 
 void MainWindow::PaintGraf() {
+
   ui_->grafic->clearGraphs();
+
   ui_->grafic->xAxis->setRange(x_start_, x_end_);
   ui_->grafic->yAxis->setRange(y_start_, y_end_);
 

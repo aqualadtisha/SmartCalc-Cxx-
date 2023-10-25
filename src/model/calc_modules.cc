@@ -13,32 +13,49 @@ void Validator::Validating() {
        expression_[0] != '-') ||
       expression_[0] == ')')
     status_ = kError;
+
   for (; status_ && expression_[i_] != '\0'; i_++) {
+
     if (IsMathWord(expression_[i_])) {  // check maths
       MathValidator();
+
     } else if (expression_[i_] == ')') {  // check brackets
       if (l_count_ == 0 || expression_[i_ - 1] == '(' ||
-          (expression_[i_ + 1] != 'm' && IsNumbOrMath(expression_[i_ + 1])))
+          (expression_[i_ + 1] != 'm' && IsNumbOrMath(expression_[i_ + 1]))) {
         status_ = kError;
+      }
       r_count_++;
+
     } else if (expression_[i_] == '(') {
+
       if (i_ != 0 && isdigit(expression_[i_ - 1])) status_ = kError;
       l_count_++;
+
     } else if (isdigit(expression_[i_])) {  // check numb
       NumbValidator();
+
       if (expression_[i_ + 1] != '\0' &&
-          (IsMathWord(expression_[i_ + 1]) && expression_[i_ + 1] != 'm'))
+          (IsMathWord(expression_[i_ + 1]) && expression_[i_ + 1] != 'm')) {
         status_ = kError;
+      }
+
     } else if (IsOperand(expression_[i_])) {  // check operands
       if (!(expression_[i_ + 1] == '+' || expression_[i_ + 1] == '-' ||
-            IsNumbOrMath(expression_[i_ + 1]) || expression_[i_ + 1] == '('))
+            IsNumbOrMath(expression_[i_ + 1]) || expression_[i_ + 1] == '(')) {
         status_ = kError;
+      }
+
     } else if (expression_[i_] == 'x') {
-      if (expression_[i_ + 1] == 'x') status_ = kError;
+
+      if (expression_[i_ + 1] == 'x') {
+        status_ = kError;
+      }
     } else {  // error symbols
       status_ = kError;
     }
+
   }
+
   if (r_count_ != l_count_) status_ = kError;
 }
 
