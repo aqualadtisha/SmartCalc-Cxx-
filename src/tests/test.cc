@@ -7,6 +7,7 @@
 
 #include "../model/calc_model.h"
 #include "../model/bank_model.h"
+
 namespace s21 {
 
   TEST(TestS21SmartCalc, Simple0) {
@@ -100,12 +101,36 @@ namespace s21 {
     EXPECT_EQ(m.Status(), true);
     EXPECT_EQ(m.ResultNum() - 282.9717201 < 1e-3, 1);
   }
+
   TEST(TestS21SmartCalc, Math5) {
     SimpleCalcModel m;
     Controller c(&m, nullptr);
     c.StartWork("-sqrt(3.141592^log(5-3.141592))+log(55/(2+3.141592))", 0);
     EXPECT_EQ(m.Status(), true);
     EXPECT_EQ(m.ResultNum() + 0.137280 < 1e-5, 1);
+  }
+
+  TEST(TestS21SmartCalc, Math6) {
+    SimpleCalcModel m;
+    Controller c(&m, nullptr);
+    c.StartWork("(((8 * 2) - (6 ^ 2)) mod 5) + 3 * 4) / (7 + 1)", 0);
+    EXPECT_EQ(m.Status(), false);
+  }
+
+  TEST(TestS21SmartCalc, Math7) {
+    SimpleCalcModel m;
+    Controller c(&m, nullptr);
+    c.StartWork("((((9 + 3) ^ 2) mod 7) + 4 * (8 - 2)) ^ 3 - 1", 0);
+    EXPECT_EQ(m.Status(), true);
+    EXPECT_EQ(m.ResultNum() - 21951 < 1e-5, 1);
+  }
+
+  TEST(TestS21SmartCalc, Math8) {
+    SimpleCalcModel m;
+    Controller c(&m, nullptr);
+    c.StartWork("((asin(0.5) ^ 2) + (acos(0.3) * atan(1.2))) / (tan(45) + sin(30))", 0);
+    EXPECT_EQ(m.Status(), true);
+    EXPECT_EQ(m.ResultNum() - 2.189711247886146 < 1e-6, 1);
   }
 
   TEST(TestS21SmartCalc, Errors) {

@@ -18,7 +18,7 @@ void Validator::Validating() {
       MathValidator();
     } else if (expression_[i_] == ')') {  // check brackets
       if (l_count_ == 0 || expression_[i_ - 1] == '(' ||
-          IsNumbOrMath(expression_[i_ + 1]))
+          (expression_[i_ + 1] != 'm' && IsNumbOrMath(expression_[i_ + 1])))
         status_ = kError;
       r_count_++;
     } else if (expression_[i_] == '(') {
@@ -70,7 +70,7 @@ void Validator::MathValidator() {
   if (sub_str.size() > 4 || sub_str.size() < 2) status_ = kError;
   if (!(IsMath(sub_str))) status_ = kError;
   if (!sub_str.find("mod")) {
-    if (!isdigit(expression_[i_ - 4]) || !isdigit(expression_[i_]))
+    if (i_ == 0 || !(isdigit(expression_[i_ - 4]) || expression_[i_ - 4] == ')') || !isdigit(expression_[i_]))
       status_ = kError;
   } else {
     if (expression_[i_] != '(') {
